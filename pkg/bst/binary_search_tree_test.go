@@ -66,11 +66,9 @@ func TestBinarySearchTree_Add_Find_Delete(t *testing.T) {
 func TestBinarySearchTree_Add_and_Print(t *testing.T) {
 	t.Run("Add values to BinarySearchTree and print as a string", func(t *testing.T) {
 		bt := NewBinarySearchTree(5)
-		bt.Add(3)
-		bt.Add(4)
-		bt.Add(7)
-		bt.Add(6)
-		bt.Add(9)
+		for _, val := range []int{3, 4, 7, 6, 9} {
+			bt.Add(val)
+		}
 
 		want := `└ 5
  └ 3

@@ -8,4 +8,4 @@ If it's not self-balancing binary search tree, deleting node is quite complex in
 - Middle cases (has left child)
 - Rightmost cases (only has right child)
 
-![](./bst_delete_patterns.jpg)
+![bst_delete_patterns](./bst_delete_patterns.jpg)
