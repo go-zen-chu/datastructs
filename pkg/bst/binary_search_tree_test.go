@@ -1,11 +1,12 @@
 package bst
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
 
-func TestNewBinaryTree(t *testing.T) {
+func TestNewBinarySearchTree(t *testing.T) {
 	type args struct {
 		val int
 	}
@@ -15,7 +16,7 @@ func TestNewBinaryTree(t *testing.T) {
 		want *BinarySearchTree
 	}{
 		{
-			name: "BinaryTree should be created",
+			name: "BinarySearchTree should be created",
 			args: args{val: 3},
 			want: &BinarySearchTree{root: &TreeNode{Val: 3}},
 		},
@@ -23,14 +24,47 @@ func TestNewBinaryTree(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := NewBinarySearchTree(tt.args.val); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewBinaryTree() = %v, want %v", got, tt.want)
+				t.Errorf("NewBinarySearchTree() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestBinaryTree_Add_and_Print(t *testing.T) {
-	t.Run("Add values to BinaryTree and print as a string", func(t *testing.T) {
+func TestBinarySearchTree_Add_Find_Delete(t *testing.T) {
+	t.Run("Add, Find, Delete values in BST", func(t *testing.T) {
+		bt := NewBinarySearchTree(50)
+		for _, val := range []int{25, 100, 12, 37, 150, 6, 18, 31, 43, 9, 1, 8, 40, 48, 125, 135} {
+			bt.Add(val)
+		}
+		// Print current tree
+		fmt.Println(bt.String())
+
+		// Find test
+		wantVal := 40
+		if got := bt.Find(wantVal); got == nil || got.Val != wantVal {
+			t.Errorf("Should get %d, but got %v", wantVal, got)
+		}
+		wantVal = 42
+		if got := bt.Find(wantVal); got != nil {
+			t.Errorf("Should not get %d, but got %v", wantVal, got)
+		}
+
+		// Delete test
+		delVal := 42
+		if got := bt.Delete(delVal); got != false {
+			t.Errorf("Should not find %d, but got %v", delVal, got)
+		}
+		for _, delVal := range []int{8, 1, 25, 125, 100, 50, 37, 9, 40, 135, 48, 31, 6, 150, 43, 12, 18} {
+			if got := bt.Delete(delVal); got != true {
+				t.Errorf("Should delete %d, but got %v", delVal, got)
+			}
+			fmt.Println(bt.String())
+		}
+	})
+}
+
+func TestBinarySearchTree_Add_and_Print(t *testing.T) {
+	t.Run("Add values to BinarySearchTree and print as a string", func(t *testing.T) {
 		bt := NewBinarySearchTree(5)
 		bt.Add(3)
 		bt.Add(4)
@@ -46,12 +80,12 @@ func TestBinaryTree_Add_and_Print(t *testing.T) {
   └ 9
 `
 		if got := bt.String(); got != want {
-			t.Errorf("Adding value to BinaryTree\ngot:\n%s\nwant:\n%s\n", got, want)
+			t.Errorf("Adding value to BinarySearchTree\ngot:\n%s\nwant:\n%s\n", got, want)
 		}
 	})
 }
 
-func TestBinaryTree_Is_Same(t *testing.T) {
+func TestBinarySearchTree_Is_Same(t *testing.T) {
 	t.Run("Check binary tree is same", func(t *testing.T) {
 		bt1 := NewBinarySearchTree(5)
 		bt1.Add(1)
@@ -71,13 +105,13 @@ func TestBinaryTree_Is_Same(t *testing.T) {
 		nbt.Add(6)
 
 		if bt1.Equal(bt2) == false {
-			t.Errorf("BinaryTree should be equal:\n%s\n%s\n", bt1.String(), bt2.String())
+			t.Errorf("BinarySearchTree should be equal:\n%s\n%s\n", bt1.String(), bt2.String())
 		}
 		if bt1.Equal(bt3) == false {
-			t.Errorf("BinaryTree should be equal:\n%s\n%s\n", bt1.String(), bt3.String())
+			t.Errorf("BinarySearchTree should be equal:\n%s\n%s\n", bt1.String(), bt3.String())
 		}
 		if bt1.Equal(nbt) == true {
-			t.Errorf("BinaryTree should not be equal:\n%s\n%s\n", bt1.String(), nbt.String())
+			t.Errorf("BinarySearchTree should not be equal:\n%s\n%s\n", bt1.String(), nbt.String())
 		}
 	})
 }
