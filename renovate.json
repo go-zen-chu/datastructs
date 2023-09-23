@@ -2,5 +2,13 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base"
+  ],
+  "dependencyDashboard": false,
+  "packageRules": [
+    {
+      // `major` 以外の PR は自動マージとする
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    },
   ]
 }
